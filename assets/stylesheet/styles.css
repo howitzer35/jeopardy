@@ -1,0 +1,15 @@
+textarea#textbox {
+    width: 1000px;
+    height: 570px;
+}
+
+textarea {
+  box-sizing: border-box;
+  background-color: white;
+  flex-direction: text;
+  resize: auto;
+  cursor: auto;
+  border-width: 1px;
+  border-style: solid;
+  padding: 2px;
+}
