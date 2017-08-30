@@ -2,43 +2,37 @@
 
   $(function(){
 
-    function initGame() {
-      console.log("so far so good")
+    const button = $("#button")
+    const score = $("#score")
+    const userAnswer = $("#userAnswer")
+    let apiAnswer
 
-      return $.get("http://jservice.io/api/random")
-      .fail(function(req) {
-        alert("nope")
-      })
+    button.click(function() {
+      if (userAnswer.val() === apiAnswer) {
+        let newScoreValue = parseInt(score.html()) + parseInt($("#pointValue").html())
+        score.html(newScoreValue)
+      }
+      initGame()
+    })
+
+    function throwErrorMessage(_) { alert("nope") }
+
+    function writeHtml([thisQuestion]) {
+      userAnswer.val('')
+      $("#question").html(thisQuestion.question)
+      $("#categoryName").html(thisQuestion.category.title)
+      $("#pointValue").html(thisQuestion.value)
+      apiAnswer = thisQuestion.answer
+      $("#apiAnswer").html(apiAnswer)
     }
 
-    $.get("http://jservice.io/api/random", function(data){
-      $("#question").html(data[0].question)
-      $("#category").html(data[0].category.title)
-      $("#pointValue").html(data[0].value)
-      $("#apiAnswer").html(data[0].answer)
+    function initGame() {
+      $.get("http://jservice.io/api/random")
+        .done(writeHtml)
+        .fail(throwErrorMessage)
+    }
 
-      let button = $("#button");
-      let score = $("#score");
-      let apiAnswer = data[0].answer
-      let userAnswer = $("#userAnswer")
+    initGame()
 
-      function initGame(){
-
-      }
-
-      button.click(function() {
-        console.log(apiAnswer);
-
-
-        if(userAnswer == apiAnswer){
-
-          let newScoreValue = parseInt(score.html()) + parseInt($("#pointValue").html())
-          score.html(newScoreValue)
-
-        }
-        })
-
-      })
-
-    })
-  })();
+  })
+})();
